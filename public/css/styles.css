@@ -1,0 +1,35 @@
+html {
+   height: 100%
+}
+
+body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px
+}
+
+#map {
+  width: 100%;
+  height: 100%
+}
+
+.show {
+  font-size: 24px;
+  margin: 10px 0 0 10px;
+  cursor: pointer;
+}
+
+.hide {
+  font-size: 53px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  cursor: pointer;
+  float: right;
+}
+
+.submenu {
+  background-color: #fff;
+  margin: 10px 0 0 10px;
+}
