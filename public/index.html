@@ -12,15 +12,17 @@
       <div class="show">&#9776;</div>
       <div class="submenu" hidden>
         <div class="hide">&#735;</div>
-        <form>
-          <label for="search">Search</label>
-          <input class="search" type="text" name="search" />
-        </form>
+        <label>Search</label>
+        <input data-bind="value: fltr, valueUpdate: 'keyup'"/>
+        <p data-bind="text: fltr"></p>
+        <ul data-bind="foreach: filterPlaces">
+            <li data-bind="text: title"></li>
+        </ul>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="js/places.js"></script>
     <script src="js/app.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JcVyudGV6roP0tOzdR7sgEMIfmLjVsE&callback=initMap"
-    async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAbOr7cVwIad9sSMAKwC3ynl_MSoeKlRg&callback=app.initMap" async defer></script>
   </body>
 </html>
