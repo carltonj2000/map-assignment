@@ -13,8 +13,8 @@
       <div class="submenu" hidden>
         <div class="hide">&#735;</div>
         <label>Search</label>
-        <input data-bind="value: fltr, valueUpdate: 'keyup'"/>
-        <p data-bind="text: fltr"></p>
+        <input data-bind="value: filter, valueUpdate: 'keyup'"/>
+        <p><span data-bind="text: placesSelected"></span> search results</p>
         <ul data-bind="foreach: filterPlaces">
             <li data-bind="text: title"></li>
         </ul>

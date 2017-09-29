@@ -33,3 +33,8 @@ body {
   background-color: #fff;
   margin: 10px 0 0 10px;
 }
+
+ul {
+  height: 480px;
+  overflow-y: scroll;
+}

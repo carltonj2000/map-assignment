@@ -1,14 +1,6 @@
 // default map markers
 
-var defaultMarkers = [{
-    "title": "Downtown Summerlin",
-    "description": "Good shopping off the strip.",
-    "tags": [ "Shopping" ],
-    "position": {
-     "lat": 36.149623,
-     "lng": -115.333449
-    },
-  },
+var defaultMarkers = [
   {
     "title": "Battlefield Vegas",
     "description": "Automatic rifle shooting. Complementary humvee ride from your strip hotel.",

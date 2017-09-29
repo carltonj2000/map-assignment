@@ -1,10 +1,9 @@
 "use strict";
 
 var app = {
-  menu: document.querySelector('.menu'),
   // create at menu with the places
   createMenu: () => {
-    let mnu = app.menu.cloneNode(true);
+    let mnu = document.querySelector('.menu');
     mnu.removeAttribute('hidden');
     let s = mnu.querySelector('.show');
     let h = mnu.querySelector('.hide');
@@ -47,15 +46,18 @@ var app = {
   markers: defaultMarkers,
   PlacesViewModel: function () {
     self = this;
-    self.fltr = ko.observable("Paris");
+    self.filter = ko.observable("Paris");
     self.places = ko.observableArray();
     self.filterPlaces = ko.computed(function () {
-      if(!self.fltr()) { return self.places() }
+      if(!self.filter()) { return self.places() }
       else {
         return ko.utils.arrayFilter(self.places(), function(place) {
-          return place.title.includes(self.fltr());
+          return place.title.toLowerCase().includes(self.filter().toLowerCase());
         })
       }
+    });
+    self.placesSelected = ko.computed(function () {
+      return self.filterPlaces().length; 
     });
   },
   koBind: () => {
