@@ -40,10 +40,12 @@ var app = {
   },
   addMarkers: (google) => {
     app.markers.forEach(marker => {
-      new google.maps.Marker({ ...marker, map: app.map });
+      const mm = new google.maps.Marker({ ...marker, map: app.map });
+      app.markersMap.push(mm);
     });
   },
   markers: defaultMarkers,
+  markersMap: [],
   PlacesViewModel: function () {
     self = this;
     self.filter = ko.observable("Paris");
@@ -52,12 +54,21 @@ var app = {
       if(!self.filter()) { return self.places() }
       else {
         return ko.utils.arrayFilter(self.places(), function(place) {
-          return place.title.toLowerCase().includes(self.filter().toLowerCase());
+          const match = place.title.toLowerCase().includes(
+            self.filter().toLowerCase());
+          if (!match) {
+            const mm = app.markersMap.filter(m => m.title === place.title);
+            if (mm.length > 0) mm[0].setMap(null);
+          } else {
+            const mm = app.markersMap.filter(m => m.title === place.title);
+            if (mm.length > 0) mm[0].setMap(app.map);
+          };
+          return match;
         })
       }
     });
     self.placesSelected = ko.computed(function () {
-      return self.filterPlaces().length; 
+      return self.filterPlaces().length;
     });
   },
   koBind: () => {
