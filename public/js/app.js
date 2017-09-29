@@ -48,7 +48,7 @@ var app = {
   markersMap: [],
   PlacesViewModel: function () {
     self = this;
-    self.filter = ko.observable("Paris");
+    self.filter = ko.observable("");
     self.places = ko.observableArray();
     self.filterPlaces = ko.computed(function () {
       if(!self.filter()) { return self.places() }
@@ -56,13 +56,8 @@ var app = {
         return ko.utils.arrayFilter(self.places(), function(place) {
           const match = place.title.toLowerCase().includes(
             self.filter().toLowerCase());
-          if (!match) {
-            const mm = app.markersMap.filter(m => m.title === place.title);
-            if (mm.length > 0) mm[0].setMap(null);
-          } else {
-            const mm = app.markersMap.filter(m => m.title === place.title);
-            if (mm.length > 0) mm[0].setMap(app.map);
-          };
+          const mm = app.markersMap.filter(m => m.title === place.title);
+          if (!match) mm[0].setMap(null); else mm[0].setMap(app.map);
           return match;
         })
       }
