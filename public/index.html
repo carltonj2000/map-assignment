@@ -16,7 +16,7 @@
         <input data-bind="value: filter, valueUpdate: 'keyup'"/>
         <p><span data-bind="text: placesSelected"></span> search results</p>
         <ul data-bind="foreach: filterPlaces">
-            <li data-bind="text: title"></li>
+            <li><a data-bind="text: title" href="#" onclick="app.markerLinkClicked(this); return false;"></a></li>
         </ul>
       </div>
     </div>

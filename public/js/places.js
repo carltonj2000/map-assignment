@@ -46,7 +46,7 @@ var defaultMarkers = [
       "lng": -115.211037
     }
   },
-  {
+   {
     "title": "Desert sportsman rifle pistol club",
     "description": "Private club I belong to for shooting with a great view.",
     "tags": [
@@ -1005,4 +1005,5 @@ var defaultMarkers = [
       "lat": 35.136473,
       "lng": -115.402977
     }
-}];
+  }
+];
