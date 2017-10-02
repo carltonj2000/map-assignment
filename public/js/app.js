@@ -36,9 +36,10 @@ var app = {
     }
     app.map = new google.maps.Map(document.getElementById('map'), app.mapOptions);
     app.map.controls[google.maps.ControlPosition.LEFT_TOP].push(app.createMenu());
-    app.addMarkers(google);
+    app.addMarkers(google, defaultMarkers);
   },
-  addMarkers: (google) => {
+  addMarkers: (google, markers) => {
+    app.koBind(markers);
     app.markers.forEach(marker => {
       let contentString = '<div id="content">';
       if (marker.website) contentString +=
@@ -55,7 +56,7 @@ var app = {
       app.markersMap.push(mm);
     });
   },
-  markers: defaultMarkers,
+  markers: [],
   markersMap: [],
   markerAnimate: (marker) => {
     if (marker.infowindow.isClosed) {
@@ -76,6 +77,7 @@ var app = {
     app.map.setCenter(marker.position);
     app.markerAnimate(marker);
   },
+  pvmInstance: null,
   PlacesViewModel: function () {
     self = this;
     self.filter = ko.observable("");
@@ -97,11 +99,10 @@ var app = {
       return self.filterPlaces().length;
     });
   },
-  koBind: () => {
-    const ap = new app.PlacesViewModel();
-    app.markers.map(marker => { ap.places.push(marker); });
-    ko.applyBindings(ap);
+  koBind: (markers) => {
+    app.markers = markers;
+    app.pvmInstance = new app.PlacesViewModel();
+    app.markers.map(marker => { app.pvmInstance.places.push(marker); });
+    ko.applyBindings(app.pvmInstance);
   },
 };
-
-app.koBind();
