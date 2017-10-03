@@ -1,7 +1,7 @@
 "use strict";
 
 var app = {
-  // create at menu with the places
+  // setup a menu with open/close functionality to displaye the places/locations
   getMenu: () => {
     let mnu = document.querySelector('.menu');
     mnu.removeAttribute('hidden');
@@ -13,7 +13,7 @@ var app = {
     mnu.index = 1;
     return mnu;
   },
-  // hides/shows the items in the submenu
+  // hides/shows places/locations submenu on map
   hide: (hs, submenu, show) => {
     if (hs) {
       show.style.display = 'none'
@@ -23,14 +23,16 @@ var app = {
       submenu.style.display = 'none'
     }
   },
+  // map options: location, zoom, etc
   mapOptions: {
     center: {lat: 36.130488, lng: -115.243281},
     zoom: 11,
     fullscreenControl: false,
     mapTypeControl: true,
   },
+  // once goole maps is initialized this function is called
   initMap: () => {
-    // map options that need google defined before using them
+    // map options that need google to be defined before using them
     app.mapOptions.mapTypeControlOptions = {
        position: google.maps.ControlPosition.LEFT_BOTTOM,
     }
@@ -38,10 +40,10 @@ var app = {
     app.map.controls[google.maps.ControlPosition.LEFT_TOP].push(app.getMenu());
     app.koBind();
     app.firebaseGetData();
-    //app.addMarkers(google, defaultMarkers);
   },
+  // add the markers to the selection menu and google maps
+  // and setup the click event
   addMarkers: (google, markers) => {
-    //debugger;
     app.markers = markers;
     app.markers.map(marker => { app.pvmInstance.places.push(marker); });
     app.markers.forEach(marker => {
@@ -54,14 +56,16 @@ var app = {
       const mm = new google.maps.Marker({ ...marker, map: app.map });
       mm.infowindow = infowindow;
       mm.infowindow.isClosed = true;
+      // marker animation for map click
       mm.addListener('click', () => app.markerAnimate(mm));
       google.maps.event.addListener(infowindow, 'closeclick', () =>
         mm.infowindow.isClosed = true);
       app.markersMap.push(mm);
     });
   },
-  markers: [],
-  markersMap: [],
+  markers: [], // array for markers on the menu
+  markersMap: [], // array for markers on the map
+  // marker animation to bounce and open/close info window
   markerAnimate: (marker) => {
     if (marker.infowindow.isClosed) {
       marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -75,13 +79,16 @@ var app = {
       marker.infowindow.isClosed = true;
     }
   },
+  // marker animation for menu link click
   markerLinkClicked: (link) => {
     let marker = app.markersMap.filter(m => link.text === m.title)[0];
     if (!marker) {console.log("Did not find " + link.text); return;}
     app.map.setCenter(marker.position);
     app.markerAnimate(marker);
   },
+  // knockout View model instance
   pvmInstance: null,
+  // knockout View model
   PlacesViewModel: function () {
     self = this;
     self.filter = ko.observable("");
@@ -103,10 +110,12 @@ var app = {
       return self.filterPlaces().length;
     });
   },
+  // knockout view model initialize/bind
   koBind: () => {
     app.pvmInstance = new app.PlacesViewModel();
     ko.applyBindings(app.pvmInstance);
   },
+  // firebase database access
   firebaseGetData: () => {
     let dberror = document.querySelector('.dberror');
     const firebaseRef = firebase.database().ref();
