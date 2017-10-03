@@ -18,7 +18,9 @@
         <p data-bind="text: filter"></p>
         <p><span data-bind="text: placesSelected"></span> search results</p>
         <ul data-bind="foreach: filterPlaces">
-            <li><a data-bind="text: title" href="#" onclick="app.markerLinkClicked(this); return false;"></a></li>
+            <li>
+              <a href="#" data-bind="text: title, click: $root.linkClicked, clickBubble: false"></a>
+            </li>
         </ul>
       </div>
     </aside>

@@ -85,13 +85,6 @@ app = {
       app.createInfoWindow(marker);
     }, 500);
   },
-  // marker animation for menu link click
-  markerLinkClicked: (link) => {
-    let marker = app.markersMap.filter(m => link.text === m.title)[0];
-    if (!marker) {console.log("Did not find " + link.text); return;}
-    app.map.setCenter(marker.position);
-    app.markerAnimate(marker);
-  },
   // knockout View model instance
   pvmInstance: null,
   // knockout View model
@@ -116,6 +109,13 @@ app = {
     self.placesSelected = ko.computed(function () {
       return self.filterPlaces().length;
     });
+  // marker animation for menu link click
+    self.linkClicked = function (link) {
+      let marker = app.markersMap.filter(m => link.title === m.title)[0];
+      app.map.setCenter(marker.position);
+      app.markerAnimate(marker);
+      return false;
+    };
   },
   // knockout view model initialize/bind
   koBind: () => {

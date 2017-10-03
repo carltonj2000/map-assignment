@@ -130,7 +130,11 @@ var defaultMarkers = [
     "description": "Big store great prices, guns",
     "tags": [
       "Shopping"
-    ]
+    ],
+    "position": {
+      "lat": 36.040046,
+      "lng": -115.183035
+    }
   },
   {
     "title": "El Segundo Sol",
@@ -236,14 +240,22 @@ var defaultMarkers = [
     "description": "good vegan food",
     "tags": [
       "Eating"
-    ]
+    ],
+    "position": {
+      "lat": 36.130083,
+      "lng": -115.277539
+    }
   },
   {
     "title": "Sunrise Coffee House",
     "description": "good vegan and outdoor eating, close to airport and big park on eastern",
     "tags": [
       "Eating"
-    ]
+    ],
+    "position": {
+      "lat": 36.071845,
+      "lng": -115.107040
+    }
   },
   {
     "title": "Red Velvet Cafe",
