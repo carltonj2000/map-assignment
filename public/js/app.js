@@ -47,6 +47,7 @@ app = {
     };
     app.map = new google.maps.Map(document.getElementById('map'), app.mapOptions);
     app.map.controls[google.maps.ControlPosition.LEFT_TOP].push(app.getMenu());
+    app.infowindow = new google.maps.InfoWindow();
     app.koBind();
     app.firebaseGetData();
   },
@@ -58,7 +59,7 @@ app = {
       `<h3><a href="${marker.website}">Website</a></h3>`;
     contentString += `<p>${marker.description}"</p>`;
     contentString += '</div>';
-    app.infowindow = new google.maps.InfoWindow({content: contentString});
+    app.infowindow.setContent(contentString);
     app.infowindow.open(app.map, marker);
   },
   // add the markers to the selection menu and google maps
