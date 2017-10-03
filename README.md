@@ -31,7 +31,6 @@ Run the application by following the steps below.
   - run `npm install`,
   - update index.html with your own
     [google maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key),
-  - install firebase-tools, if not already installed, via
-    `npm install -g firebase-tools`,
-  - run `firebase serve --only hosting`
-  - open the browser to http://localhost:5000
+  - run `npm run serve`.
+
+This should open a browser window with the application running.

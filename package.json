@@ -4,12 +4,14 @@
   "description": "Udacity FEWD Map Assignment",
   "main": "index.js",
   "scripts": {
-    "serve": "firebase serve --only hosting",
+    "serve": "browser-sync start -f public -s public",
+    "fbserve": "firebase serve --only hosting",
     "deploy": "firebase deploy"
   },
   "author": "“Carlton <“carlton.joseph@gmail.com”>",
   "license": "GPL-2.0",
   "devDependencies": {
+    "browser-sync": "^2.18.13",
     "firebase-tools": "^3.12.0"
   }
 }
