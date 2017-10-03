@@ -262,6 +262,10 @@ var defaultMarkers = [
     "tags": [
       "Eating"
     ],
+    "position": {
+      "lat": 36.111454,
+      "lng": -115.173139
+    },
     "website": "http://www.jpchocolates.com/"
   },
   {

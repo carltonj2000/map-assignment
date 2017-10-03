@@ -7,20 +7,22 @@
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
-    <div id="map"></div>
-    <div class="menu" hidden>
+    <main id="map"></main>
+    <aside class="menu" hidden>
       <div class="show">&#9776;</div>
       <div class="submenu" hidden>
         <div class="hide">&#735;</div>
         <p class="dberror" hidden>Default data used.<br/>Firebase access failed.</p>
         <label>Search</label>
-        <input data-bind="value: filter, valueUpdate: 'keyup'"/>
+        <input data-bind="value: filter, valueUpdate: 'input'"/>
+        <p data-bind="text: filter"></p>
         <p><span data-bind="text: placesSelected"></span> search results</p>
         <ul data-bind="foreach: filterPlaces">
             <li><a data-bind="text: title" href="#" onclick="app.markerLinkClicked(this); return false;"></a></li>
         </ul>
       </div>
-    </div>-    <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+    </aside>
+    <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
     <script>
       // Initialize Firebase
       var config = {
@@ -37,6 +39,6 @@
     <script src="js/places.js"></script>
     <script src="js/app.js"></script>
     <!-- to run replace the key with your own one the line below -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAbOr7cVwIad9sSMAKwC3ynl_MSoeKlRg&callback=app.initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAbOr7cVwIad9sSMAKwC3ynl_MSoeKlRg&callback=app.initMap" onerror="app.failMap()" async defer></script>
   </body>
 </html>

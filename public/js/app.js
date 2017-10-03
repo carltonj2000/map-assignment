@@ -4,6 +4,12 @@ var app;
   "use strict";
 
 app = {
+  // on failure to load the map notify the user
+  failMap: () => {
+    let map = document.querySelector('#map');
+    map.insertAdjacentHTML('afterbegin',
+      '<h1>Map Failed To Load</h1><p>Possible network error.</p>');
+  },
   // setup a menu with open/close functionality to displaye the places/locations
   getMenu: () => {
     let mnu = document.querySelector('.menu');
@@ -44,29 +50,28 @@ app = {
     app.koBind();
     app.firebaseGetData();
   },
+  infowindow: null,
+  createInfoWindow: (marker) => {
+    if (app.infowindow && app.infowindow.close) app.infowindow.close();
+    let contentString = '<div id="content">';
+    if (marker.website) contentString +=
+      `<h3><a href="${marker.website}">Website</a></h3>`;
+    contentString += `<p>${marker.description}"</p>`;
+    contentString += '</div>';
+    app.infowindow = new google.maps.InfoWindow({content: contentString});
+    app.infowindow.open(app.map, marker);
+  },
   // add the markers to the selection menu and google maps
   // and setup the click event
   addMarkers: (google, markers) => {
     app.markers = markers;
     app.markers.map(marker => { app.pvmInstance.places.push(marker); });
     app.markers.forEach(marker => {
-      let contentString = '<div id="content">';
-      if (marker.website) contentString +=
-        `<h3><a href="${marker.website}">Website</a></h3>`;
-      contentString += `<p>${marker.description}"</p>`;
-      contentString += '</div>';
-      const infowindow = new google.maps.InfoWindow({content: contentString});
       let mkr = marker;
       mkr.map = app.map;
       const mm = new google.maps.Marker(mkr);
-      // above 3 lines replace the es2017 syntax below that jshint has issues with
-      //const mm = new google.maps.Marker({ ...marker, map: app.map });
-      mm.infowindow = infowindow;
-      mm.infowindow.isClosed = true;
       // marker animation for map click
       mm.addListener('click', () => app.markerAnimate(mm));
-      google.maps.event.addListener(infowindow, 'closeclick', () =>
-        mm.infowindow.isClosed = true);
       app.markersMap.push(mm);
     });
   },
@@ -74,17 +79,11 @@ app = {
   markersMap: [], // array for markers on the map
   // marker animation to bounce and open/close info window
   markerAnimate: (marker) => {
-    if (marker.infowindow.isClosed) {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-      window.setTimeout(() => {
-        marker.setAnimation(null);
-        marker.infowindow.open(app.map, marker);
-        marker.infowindow.isClosed = false;
-      }, 500);
-    } else {
-      marker.infowindow.close();
-      marker.infowindow.isClosed = true;
-    }
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    window.setTimeout(() => {
+      marker.setAnimation(null);
+      app.createInfoWindow(marker);
+    }, 500);
   },
   // marker animation for menu link click
   markerLinkClicked: (link) => {
@@ -101,9 +100,10 @@ app = {
     self.filter = ko.observable("");
     self.places = ko.observableArray();
     self.filterPlaces = ko.computed(function () {
-      if(!self.filter())
+      if(!self.filter()) {
+        app.markersMap.map(m => m.setMap(app.map));
         return self.places().sort((l,r) => l.title > r.title ? 1 : -1);
-      else {
+      } else {
         return ko.utils.arrayFilter(self.places(), function(place) {
           const match = place.title.toLowerCase().includes(
             self.filter().toLowerCase());
