@@ -1,6 +1,9 @@
-"use strict";
+/*jshint esversion: 6 */
+var app;
+(function () {
+  "use strict";
 
-var app = {
+app = {
   // setup a menu with open/close functionality to displaye the places/locations
   getMenu: () => {
     let mnu = document.querySelector('.menu');
@@ -16,11 +19,11 @@ var app = {
   // hides/shows places/locations submenu on map
   hide: (hs, submenu, show) => {
     if (hs) {
-      show.style.display = 'none'
+      show.style.display = 'none';
       submenu.style.display = 'inline-block';
     } else {
       show.style.display = 'inline-block';
-      submenu.style.display = 'none'
+      submenu.style.display = 'none';
     }
   },
   // map options: location, zoom, etc
@@ -35,7 +38,7 @@ var app = {
     // map options that need google to be defined before using them
     app.mapOptions.mapTypeControlOptions = {
        position: google.maps.ControlPosition.LEFT_BOTTOM,
-    }
+    };
     app.map = new google.maps.Map(document.getElementById('map'), app.mapOptions);
     app.map.controls[google.maps.ControlPosition.LEFT_TOP].push(app.getMenu());
     app.koBind();
@@ -53,7 +56,11 @@ var app = {
       contentString += `<p>${marker.description}"</p>`;
       contentString += '</div>';
       const infowindow = new google.maps.InfoWindow({content: contentString});
-      const mm = new google.maps.Marker({ ...marker, map: app.map });
+      let mkr = marker;
+      mkr.map = app.map;
+      const mm = new google.maps.Marker(mkr);
+      // above 3 lines replace the es2017 syntax below that jshint has issues with
+      //const mm = new google.maps.Marker({ ...marker, map: app.map });
       mm.infowindow = infowindow;
       mm.infowindow.isClosed = true;
       // marker animation for map click
@@ -95,7 +102,7 @@ var app = {
     self.places = ko.observableArray();
     self.filterPlaces = ko.computed(function () {
       if(!self.filter())
-        return self.places().sort((l,r) => l.title > r.title ? 1 : -1)
+        return self.places().sort((l,r) => l.title > r.title ? 1 : -1);
       else {
         return ko.utils.arrayFilter(self.places(), function(place) {
           const match = place.title.toLowerCase().includes(
@@ -132,3 +139,5 @@ var app = {
     });
   },
 };
+
+})();
