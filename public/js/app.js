@@ -2,14 +2,14 @@
 
 var app = {
   // create at menu with the places
-  createMenu: () => {
+  getMenu: () => {
     let mnu = document.querySelector('.menu');
     mnu.removeAttribute('hidden');
     let s = mnu.querySelector('.show');
     let h = mnu.querySelector('.hide');
     let sm = mnu.querySelector('.submenu');
-    s.addEventListener('click', (e) => app.hide(true, sm, s));
-    h.addEventListener('click', (e) => app.hide(false, sm, s));
+    s.addEventListener('click', () => app.hide(true, sm, s));
+    h.addEventListener('click', () => app.hide(false, sm, s));
     mnu.index = 1;
     return mnu;
   },
@@ -35,11 +35,15 @@ var app = {
        position: google.maps.ControlPosition.LEFT_BOTTOM,
     }
     app.map = new google.maps.Map(document.getElementById('map'), app.mapOptions);
-    app.map.controls[google.maps.ControlPosition.LEFT_TOP].push(app.createMenu());
-    app.addMarkers(google, defaultMarkers);
+    app.map.controls[google.maps.ControlPosition.LEFT_TOP].push(app.getMenu());
+    app.koBind();
+    app.firebaseGetData();
+    //app.addMarkers(google, defaultMarkers);
   },
   addMarkers: (google, markers) => {
-    app.koBind(markers);
+    //debugger;
+    app.markers = markers;
+    app.markers.map(marker => { app.pvmInstance.places.push(marker); });
     app.markers.forEach(marker => {
       let contentString = '<div id="content">';
       if (marker.website) contentString +=
@@ -99,10 +103,23 @@ var app = {
       return self.filterPlaces().length;
     });
   },
-  koBind: (markers) => {
-    app.markers = markers;
+  koBind: () => {
     app.pvmInstance = new app.PlacesViewModel();
-    app.markers.map(marker => { app.pvmInstance.places.push(marker); });
     ko.applyBindings(app.pvmInstance);
+  },
+  firebaseGetData: () => {
+    let dberror = document.querySelector('.dberror');
+    const firebaseRef = firebase.database().ref();
+    const firebaseActivitiesRef = firebaseRef.child("activities");
+    firebaseActivitiesRef.once('value')
+    .then(snap => {
+      dberror.setAttribute('visibility','hidden');
+      app.addMarkers(google, Array.from(snap.val().filter(v => !v.inactiveDate)));
+    })
+    .catch(e => {
+      dberror.removeAttribute('hidden');
+      // restrict total marker to just a few to know firebase access failed
+      app.addMarkers(google, defaultMarkers.slice(-15,-10));
+    });
   },
 };

@@ -963,17 +963,6 @@ var defaultMarkers = [
     }
   },
   {
-    "title": "Places I have stayed",
-    "description": "Wynn, Treasure Island, Luxor, MGM Signature, Stratosphere, Balies",
-    "tags": [
-      "Hotels"
-    ],
-    "position": {
-      "lat": 36.114698,
-      "lng": -115.172818
-    }
-  },
-  {
     "title": "Strip View Cafe",
     "description": "Cafe with so-so food",
     "tags": [

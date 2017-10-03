@@ -12,6 +12,7 @@
       <div class="show">&#9776;</div>
       <div class="submenu" hidden>
         <div class="hide">&#735;</div>
+        <p class="dberror" hidden>Default data used.<br/>Firebase access failed.</p>
         <label>Search</label>
         <input data-bind="value: filter, valueUpdate: 'keyup'"/>
         <p><span data-bind="text: placesSelected"></span> search results</p>
@@ -19,7 +20,19 @@
             <li><a data-bind="text: title" href="#" onclick="app.markerLinkClicked(this); return false;"></a></li>
         </ul>
       </div>
-    </div>
+    </div>-    <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCpe0cNF68B0VckeN6NZYPhFekynoK8Nos",
+        authDomain: "maps-a59ca.firebaseapp.com",
+        databaseURL: "https://maps-a59ca.firebaseio.com",
+        projectId: "maps-a59ca",
+        storageBucket: "maps-a59ca.appspot.com",
+        messagingSenderId: "840338227379"
+      };
+      firebase.initializeApp(config);
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="js/places.js"></script>
     <script src="js/app.js"></script>
