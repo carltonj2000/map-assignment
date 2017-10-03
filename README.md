@@ -1,7 +1,7 @@
 # Udacity Map Assignment
 
   - The
-    [Udacity Front End Web Developer Nanodegree]()
+    [Udacity Front End Web Developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001)
     map assignment code is contained in this repository.
   - The final running assignment can be seen
     [hosted on firebase](https://maps-a59ca.firebaseapp.com/)
