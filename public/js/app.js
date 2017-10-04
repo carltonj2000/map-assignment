@@ -10,27 +10,18 @@ app = {
     map.insertAdjacentHTML('afterbegin',
       '<h1>Map Failed To Load</h1><p>Possible network error.</p>');
   },
-  // setup a menu with open/close functionality to displaye the places/locations
+  // setup a menu to display the places/locations
   getMenu: () => {
     let mnu = document.querySelector('.menu');
     mnu.removeAttribute('hidden');
-    let s = mnu.querySelector('.show');
-    let h = mnu.querySelector('.hide');
-    let sm = mnu.querySelector('.submenu');
-    s.addEventListener('click', () => app.hide(true, sm, s));
-    h.addEventListener('click', () => app.hide(false, sm, s));
     mnu.index = 1;
     return mnu;
   },
   // hides/shows places/locations submenu on map
-  hide: (hs, submenu, show) => {
-    if (hs) {
-      show.style.display = 'none';
-      submenu.style.display = 'inline-block';
-    } else {
-      show.style.display = 'inline-block';
-      submenu.style.display = 'none';
-    }
+  hide: (submenu, show) => {
+      [show.style.display, submenu.style.display] =
+      [ window.getComputedStyle(submenu,null)['display'],
+        window.getComputedStyle(show,null)['display']];
   },
   // map options: location, zoom, etc
   mapOptions: {
@@ -104,6 +95,8 @@ app = {
   // knockout View model
   PlacesViewModel: function () {
     self = this;
+    self.showMenu = ko.observable(false); // used hide/show menu
+    self.showHideClick = function () { self.showMenu(!self.showMenu()); };
     self.filter = ko.observable("");
     self.places = ko.observableArray();
     self.filterPlaces = ko.computed(function () {

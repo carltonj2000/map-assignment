@@ -32,6 +32,7 @@ body {
 .submenu {
   background-color: #fff;
   margin: 10px 0 0 10px;
+  display: none;
 }
 
 ul {

@@ -9,9 +9,9 @@
   <body>
     <main id="map"></main>
     <aside class="menu" hidden>
-      <div class="show">&#9776;</div>
-      <div class="submenu" hidden>
-        <div class="hide">&#735;</div>
+      <div class="show" data-bind="click: showHideClick, style: { display: showMenu() ? 'none' : 'inline-block' }">&#9776;</div>
+      <div class="submenu" data-bind="style: { display: showMenu() ? 'inline-block' : 'none' }">
+        <div class="hide" data-bind="click: showHideClick">&#735;</div>
         <p class="dberror" hidden>Default data used.<br/>Firebase access failed.</p>
         <label>Search</label>
         <input data-bind="value: filter, valueUpdate: 'input'"/>
