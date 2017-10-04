@@ -71,9 +71,9 @@ app = {
       .then(resp => resp.json())
       .then(json => {
         const f = Math.trunc((json.main.temp - 273) * 1.8 + 32);
-        let tString = contentString.replace('Unavailable', `${f} degress F`)
+        let tString = contentString.replace('Unavailable', `${f} degress F`);
         app.infowindow.setContent(tString);
-      })
+      });
   },
   // add the markers to the selection menu and google maps
   // and setup the click event
