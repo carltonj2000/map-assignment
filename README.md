@@ -9,8 +9,11 @@
     configure your own
     [google maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key).
   - [Firebase](https://firebase.google.com/)
-    is the third party library used in the assignment and allows the map locations
+    is a third party library used in the assignment and allows the map locations
     to be retrieved from a Internet database server.
+  - [Open Weather Map](https://openweathermap.org/)
+    is the third party library used in the assignment to query and display the
+    temperature of a selected location on the map.
 
 ## Usage
 

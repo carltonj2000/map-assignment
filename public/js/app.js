@@ -51,16 +51,29 @@ app = {
     app.koBind();
     app.firebaseGetData();
   },
+  openMapApiKey: "eb105b9a1b48a3830f185d89f663bb81",
   infowindow: null,
   createInfoWindow: (marker) => {
     if (app.infowindow && app.infowindow.close) app.infowindow.close();
     let contentString = '<div id="content">';
     if (marker.website) contentString +=
       `<h3><a href="${marker.website}">Website</a></h3>`;
+    contentString += `<h4>Temperature Unavailable</h4>`;
     contentString += `<p>${marker.description}"</p>`;
     contentString += '</div>';
     app.infowindow.setContent(contentString);
     app.infowindow.open(app.map, marker);
+    const lat = marker.position.lat();
+    const lng = marker.position.lng();
+    const url = `http://api.openweathermap.org/data/2.5/weather?` +
+      `lat=${lat}&lon=${lng}&appid=${app.openMapApiKey}`;
+    fetch(url)
+      .then(resp => resp.json())
+      .then(json => {
+        const f = Math.trunc((json.main.temp - 273) * 1.8 + 32);
+        let tString = contentString.replace('Unavailable', `${f} degress F`)
+        app.infowindow.setContent(tString);
+      })
   },
   // add the markers to the selection menu and google maps
   // and setup the click event
