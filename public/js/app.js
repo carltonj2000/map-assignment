@@ -42,6 +42,8 @@ app = {
     app.koBind();
     app.firebaseGetData();
   },
+  fsqrClient: "FYLT02KRUPKBZUUWH1TW1AWMW30KXFTO1BOUT3S5HQTJ4P2G",
+  fsqrSecret: "WRB2RTN5IWDH5EKHMSMTOXUH1GAS4O1SRHVBEF5Y00E2IC33",
   openMapApiKey: "eb105b9a1b48a3830f185d89f663bb81",
   infowindow: null,
   createInfoWindow: (marker) => {
@@ -49,20 +51,37 @@ app = {
     let contentString = '<div id="content">';
     if (marker.website) contentString +=
       `<h3><a href="${marker.website}">Website</a></h3>`;
-    contentString += `<h4>Temperature Unavailable</h4>`;
+    contentString += `<h4>Phone number: Retriving</h4>`;
     contentString += `<p>${marker.description}"</p>`;
     contentString += '</div>';
     app.infowindow.setContent(contentString);
     app.infowindow.open(app.map, marker);
     const lat = marker.position.lat();
     const lng = marker.position.lng();
-    const url = `http://api.openweathermap.org/data/2.5/weather?` +
-      `lat=${lat}&lon=${lng}&appid=${app.openMapApiKey}`;
+    const q = marker.title.replace(' ','%20');
+    const url = `https://api.foursquare.com/v2/venues/search` +
+      `?client_id=${app.fsqrClient}` +
+      `&client_secret=${app.fsqrSecret}` +
+      `&v=20171005` +
+      `&limit=3` +
+      `&query=${q}` +
+      `&ll=${lat},${lng}`;
     fetch(url)
       .then(resp => resp.json())
       .then(json => {
-        const f = Math.trunc((json.main.temp - 273) * 1.8 + 32);
-        let tString = contentString.replace('Unavailable', `${f} degress F`);
+        let tString;
+        if(json &&
+           json.response &&
+           json.response.venues.length > 0 &&
+           json.response.venues[0].contact.formattedPhone) {
+           tString = contentString.replace('Retriving',
+            `${json.response.venues[0].contact.formattedPhone}`);
+        } else tString = contentString.replace('Retriving', 'Unavailable');
+        app.infowindow.setContent(tString);
+      })
+      .catch(err => {
+        console.log(err);
+        let tString = contentString.replace('Retriving', `Retival failed.`);
         app.infowindow.setContent(tString);
       });
   },
@@ -88,7 +107,7 @@ app = {
     window.setTimeout(() => {
       marker.setAnimation(null);
       app.createInfoWindow(marker);
-    }, 500);
+    }, 700);
   },
   // knockout View model instance
   pvmInstance: null,

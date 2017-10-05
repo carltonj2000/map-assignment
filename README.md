@@ -11,9 +11,8 @@
   - [Firebase](https://firebase.google.com/)
     is a third party library used in the assignment and allows the map locations
     to be retrieved from a Internet database server.
-  - [Open Weather Map](https://openweathermap.org/)
-    is the third party library used in the assignment to query and display the
-    temperature of a selected location on the map.
+  - [Foursquare](https://foursquare.com/)
+    is the third party library used to retrieve the phone number of a location.
 
 ## Usage
 
