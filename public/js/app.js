@@ -17,12 +17,6 @@ app = {
     mnu.index = 1;
     return mnu;
   },
-  // hides/shows places/locations submenu on map
-  hide: (submenu, show) => {
-      [show.style.display, submenu.style.display] =
-      [ window.getComputedStyle(submenu,null)['display'],
-        window.getComputedStyle(show,null)['display']];
-  },
   // map options: location, zoom, etc
   mapOptions: {
     center: {lat: 36.130488, lng: -115.243281},
